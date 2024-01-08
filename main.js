@@ -43,6 +43,17 @@ function recuperoImagen(xhr, div, id) {
 // -------------------------------------------------------------------------------------- Para el detalle del Pokemon
 
 document.getElementById("buscaPokemon").addEventListener("click", () => {
+  peticion();
+});
+
+window.addEventListener("keypress", (e)=>{
+  console.log(e);
+  if(e.code==="Enter"){
+    peticion();
+  }
+})
+
+function peticion(){
   let xhr = new XMLHttpRequest();
   let nombrePokemon =
     document.getElementById("pokemonName").value != ""
@@ -76,7 +87,7 @@ document.getElementById("buscaPokemon").addEventListener("click", () => {
   };
 
   xhr.send();
-});
+}
 
 function status404(body) {
   if (!document.getElementById("contenedor")) {
@@ -131,16 +142,28 @@ function recuperarEstadisticas(xhr) {
 //Recupero detalles básicos como nombre, id, peso...
 function detallesBasicos(xhr) {
   if (!document.getElementById("detallesBásicos")) {
-    let divDetallesBasicos = document.createElement("div");
-    divDetallesBasicos.setAttribute("id", "detallesBasicos");
+    creaDivDetallesBasicos();
     let detalles = 'Id: ,Name: ,Base experience: ,Height: ,Default: ,Order: ,Weight: '.split(",");
     let detallesPeticion = [xhr.response.id,xhr.response.name,xhr.response.base_experience,xhr.response.height,xhr.response.is_default,xhr.response.order,xhr.response.weight];
     for (let i = 0; i < detalles.length; i++) {
       let detalle = document.createElement("p");
+      detalle.setAttribute("id", detalles[i]);
       detalle.setAttribute("class", "atributosBasicos");
       detalle.textContent= (detalles[i]+ detallesPeticion[i]).toUpperCase();
-      divDetallesBasicos.appendChild(detalle);
+      if(!document.getElementById(detalles[i])){
+        document.getElementById("detallesBasicos").appendChild(detalle);
+      }else{
+        document.getElementById(detalles[i]).textContent= (detalles[i]+ detallesPeticion[i]).toUpperCase();
+      }
     }
+  }
+}
+
+
+function creaDivDetallesBasicos(){
+  if(!document.getElementById("detallesBasicos")){
+    let divDetallesBasicos = document.createElement("div");
+    divDetallesBasicos.setAttribute("id", "detallesBasicos");
     document.getElementById("divPokemon").appendChild(divDetallesBasicos);
   }
 }
