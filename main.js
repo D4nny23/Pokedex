@@ -67,7 +67,7 @@ function peticion(){
   xhr.onload = function () {
     let body = document.getElementsByTagName("body")[0];
 
-    recuperarEstadisticas(xhr);
+    // recuperarEstadisticas(xhr);
     if (!document.getElementById("divPokemon")) {
       let div = document.createElement("div");
       div.setAttribute("id", "divPokemon");
@@ -77,6 +77,7 @@ function peticion(){
     if (xhr.status === 200) {
       detallesPokemon(xhr);
       detallesBasicos(xhr);
+      creaDivHabilidades(xhr);
     } else if (xhr.status === 404) {
       status404(body);
     }
@@ -165,5 +166,19 @@ function creaDivDetallesBasicos(){
     let divDetallesBasicos = document.createElement("div");
     divDetallesBasicos.setAttribute("id", "detallesBasicos");
     document.getElementById("divPokemon").appendChild(divDetallesBasicos);
+  }
+}
+
+// --------------------------------------------------------------- Habilidades
+function habilidades(xhr){
+  creaDivHabilidades();
+}
+
+
+function creaDivHabilidades(){
+  if(!document.getElementById("habilidades")){
+    let divHabilidades = document.createElement("div");
+    divHabilidades.setAttribute("id", "habilidades");
+    document.getElementById("divPokemon").appendChild(divHabilidades);
   }
 }
