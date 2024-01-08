@@ -1,0 +1,79 @@
+#contenedor{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    overflow: auto;
+    width: 98%;
+    height: 70vh;
+    margin-bottom: 1%;
+    /* border: 1px solid gray; */
+    position:relative;
+    left: 1%;
+    top: 5vh;
+}
+
+
+
+.celda{
+    border: 1px solid gray;
+    margin:10px;
+    text-align: center;
+    background-color: rgb(250, 250, 88);
+    border-radius: 4px;
+    font-weight: bold
+}
+
+#logo{
+    margin: auto;
+    width: 20%;
+    height: 10%;
+    display: block;
+}
+
+#pokemonName{
+    width: 30%;
+    position: relative;
+    left: 35%;
+    top: 1.5vh;
+    height: 4vh;
+    border-radius: 8px;
+}
+
+#buscaPokemon{
+    width: 10%;
+    position: relative;
+    left: 35%;
+    top: 1.5vh;
+    height: 3vh;
+    background-color: #F6CF57;
+    border-radius: 8px;
+}
+
+.celda:hover{
+    background-color: red;
+}
+
+#divPokemon{
+    width: 100%;
+    margin-top: 2%;
+    height: 72vh;
+    background-color: rgb(245, 244, 244);
+}
+
+#imgDetalle{
+    width: 12%;
+    background-color: #eaeaea;
+}
+
+#detallesBasicos{
+    font-weight: bold;
+    background-color: #eaeaea;
+    padding:0.5%;
+    width: 11%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.atributosBasicos{
+   
+    margin-left: 1%;
+}
