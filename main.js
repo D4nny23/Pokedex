@@ -46,8 +46,7 @@ document.getElementById("buscaPokemon").addEventListener("click", () => {
   peticion();
 });
 
-window.addEventListener("keypress", (e)=>{
-  console.log(e);
+window.addEventListener("keypress", ()=>{
   if(e.code==="Enter"){
     peticion();
   }
@@ -173,6 +172,20 @@ function creaDivDetallesBasicos(){
 // --------------------------------------------------------------- Habilidades
 function habilidades(xhr){
   creaDivHabilidades();
+  let divHabilidades= document.getElementById("habilidades");
+  let titulo= document.createElement("p");
+  titulo.textContent="Abilities";
+  divHabilidades.appendChild(titulo);
+  let habilidades= xhr.response.abilities;
+  let datos= document.createElement("ul");
+  for (let i = 0; i < habilidades.length; i++) {
+    let li= document.createElement("li");
+    li.textContent= habilidades[i].ability.name;
+    datos.appendChild(li);
+    console.log(habilidades[i].ability.name);
+  }
+  divHabilidades.appendChild(datos);
+
 }
 
 
