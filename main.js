@@ -75,6 +75,7 @@ function peticion(){
     }
 
     if (xhr.status === 200) {
+      habilidades(xhr);
       detallesPokemon(xhr);
       detallesBasicos(xhr);
       creaDivHabilidades(xhr);
