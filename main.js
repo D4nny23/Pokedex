@@ -46,7 +46,7 @@ document.getElementById("buscaPokemon").addEventListener("click", () => {
   peticion();
 });
 
-window.addEventListener("keypress", ()=>{
+window.addEventListener("keypress", (e)=>{
   if(e.code==="Enter"){
     peticion();
   }
@@ -60,7 +60,6 @@ function peticion(){
       : 0;
   let ruta = "https://pokeapi.co/api/v2/pokemon/" + nombrePokemon;
   xhr.open("GET", ruta);
-  console.log(ruta);
 
   xhr.responseType = "json";
   xhr.onload = function () {
@@ -109,6 +108,12 @@ function status404(body) {
 
 function detallesPokemon(xhr) {
   let div = document.getElementById("divPokemon");
+  if(!document.getElementById("nombreTitulo")){
+    let nombreTitulo= document.createElement("p");
+    nombreTitulo.setAttribute("id", "nombreTitulo");
+    div.appendChild(nombreTitulo);
+  }
+  document.getElementById("nombreTitulo").textContent= (xhr.response.name).toUpperCase();
   recuperoImagen2(xhr, div, "imgDetalle");
   //Borra la lista de Pokemon
   if (document.getElementById("contenedor")) {
@@ -144,8 +149,8 @@ function recuperarEstadisticas(xhr) {
 function detallesBasicos(xhr) {
   if (!document.getElementById("detallesBásicos")) {
     creaDivDetallesBasicos();
-    let detalles = 'Id: ,Name: ,Base experience: ,Height: ,Default: ,Order: ,Weight: '.split(",");
-    let detallesPeticion = [xhr.response.id,xhr.response.name,xhr.response.base_experience,xhr.response.height,xhr.response.is_default,xhr.response.order,xhr.response.weight];
+    let detalles = 'Id: ,Name: ,Height: ,Weight: '.split(",");
+    let detallesPeticion = [xhr.response.id,xhr.response.name,xhr.response.height,xhr.response.weight];
     for (let i = 0; i < detalles.length; i++) {
       let detalle = document.createElement("p");
       detalle.setAttribute("id", detalles[i]);
@@ -174,15 +179,15 @@ function habilidades(xhr){
   creaDivHabilidades();
   let divHabilidades= document.getElementById("habilidades");
   let titulo= document.createElement("p");
-  titulo.textContent="Abilities";
+  titulo.textContent="ABILITIES";
   divHabilidades.appendChild(titulo);
   let habilidades= xhr.response.abilities;
   let datos= document.createElement("ul");
   for (let i = 0; i < habilidades.length; i++) {
     let li= document.createElement("li");
-    li.textContent= habilidades[i].ability.name;
+    li.textContent= (habilidades[i].ability.name).toUpperCase();
+
     datos.appendChild(li);
-    console.log(habilidades[i].ability.name);
   }
   divHabilidades.appendChild(datos);
 

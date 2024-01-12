@@ -76,3 +76,21 @@
 .atributosBasicos{
     margin-left: 1%;
 }
+
+#nombreTitulo{
+    text-align: center;
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+    font-size: 2em;
+}
+
+#habilidades{
+    background-color: #eaeaea;
+    width: 20%;
+    padding: 10px;
+    position: absolute;
+    top: 34.5vh;
+    left: 13%;
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+}
