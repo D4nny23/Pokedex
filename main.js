@@ -53,6 +53,14 @@ window.addEventListener("keypress", (e)=>{
 })
 
 function peticion(){
+  if(document.getElementById("habilidades")){
+    document.getElementById("habilidades").remove();
+  }
+
+  if(document.getElementById("tipos")){
+    document.getElementById("tipos").remove();
+  }
+
   let xhr = new XMLHttpRequest();
   let nombrePokemon =
     document.getElementById("pokemonName").value != ""
@@ -77,6 +85,7 @@ function peticion(){
       detallesPokemon(xhr);
       detallesBasicos(xhr);
       creaDivHabilidades(xhr);
+      tipos(xhr);
     } else if (xhr.status === 404) {
       status404(body);
     }
@@ -178,19 +187,23 @@ function creaDivDetallesBasicos(){
 function habilidades(xhr){
   creaDivHabilidades();
   let divHabilidades= document.getElementById("habilidades");
-  let titulo= document.createElement("p");
-  titulo.textContent="ABILITIES";
-  divHabilidades.appendChild(titulo);
+
+  if(!document.getElementById("titulo") && !document.getElementById("listaHabilidades")){
+    let titulo= document.createElement("p");
+    titulo.textContent="ABILITIES";
+    titulo.setAttribute("id", "titulo");
+    divHabilidades.appendChild(titulo);
+    let datos= document.createElement("ul");
+    datos.setAttribute("id", "listaHabilidades");
+    divHabilidades.appendChild(datos);
+  }
+
   let habilidades= xhr.response.abilities;
-  let datos= document.createElement("ul");
   for (let i = 0; i < habilidades.length; i++) {
     let li= document.createElement("li");
     li.textContent= (habilidades[i].ability.name).toUpperCase();
-
-    datos.appendChild(li);
+    document.getElementById("listaHabilidades").appendChild(li);
   }
-  divHabilidades.appendChild(datos);
-
 }
 
 
@@ -199,5 +212,39 @@ function creaDivHabilidades(){
     let divHabilidades = document.createElement("div");
     divHabilidades.setAttribute("id", "habilidades");
     document.getElementById("divPokemon").appendChild(divHabilidades);
+  }
+}
+
+
+// -------------------------------------------------- TIPOS
+
+function tipos(xhr){
+  creaDivTipos();
+  let tipos= xhr.response.types;
+  for (let i = 0; i < tipos.length; i++) {
+    let p= document.createElement("p");
+    p.setAttribute("id", "tipos");
+    colorTipos(p,tipos[i].type.name);
+    p.textContent= (tipos[i].type.name).toUpperCase();
+    document.getElementById("tipos").appendChild(p);
+  }
+
+}
+
+function creaDivTipos(){
+  if(!document.getElementById("tipos")){
+    let divTipos = document.createElement("div");
+    divTipos.setAttribute("id", "tipos");
+    document.getElementById("divPokemon").appendChild(divTipos);
+  }
+}
+
+function colorTipos(p,tipo){
+  let pokemonTypes = ["steel","water","bug","dragon","electric","ghost","fire","fairy","ice","fighting","normal","grass","psychic","rock","dark","ground","poison","flying"];
+  let colores= ["#B0BEC5", "#2196F3", "#4CAF50", "#673AB7", "#FFEB3B", "#9E9E9E","#F44336", "#FF4081", "#80D8FF", "#D84315", "#9E9E9E", "#4CAF50", "#AB47BC", "#795548", "#212121", "#6D4C41", "#880E4F", "#03A9F4"]
+  for (let i = 0; i < pokemonTypes.length; i++) {
+    if(pokemonTypes[i]==tipo){
+      p.style.backgroundColor=colores[i];
+    }
   }
 }

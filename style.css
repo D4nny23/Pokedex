@@ -53,6 +53,8 @@
     background-color: red;
 }
 
+/* ---------------------------------------------------------------------------- */
+
 #divPokemon{
     width: 100%;
     margin-top: 2%;
@@ -93,4 +95,10 @@
     left: 13%;
     font-family: 'Trebuchet MS';
     font-weight: bold;
+}
+
+#tipos{
+    width: 30%;
+    text-align: center;
+    border-radius: 8px;
 }
