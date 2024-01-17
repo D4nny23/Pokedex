@@ -86,6 +86,7 @@ function peticion(){
       detallesBasicos(xhr);
       creaDivHabilidades(xhr);
       tipos(xhr);
+      recuperarEstadisticas(xhr);
     } else if (xhr.status === 404) {
       status404(body);
     }
@@ -144,14 +145,6 @@ function recuperoImagen2(xhr, div, id) {
     let imgElement = document.getElementById(id);
     imgElement.setAttribute("src", img);
   }
-}
-
-//PRUEBA
-function recuperarEstadisticas(xhr) {
-  // let stats= xhr.response.stats;
-  // for (let i = 0; i < stats.length; i++) {
-  //   console.log("Estadística básica"+stats[i].stat.name);
-  // }
 }
 
 //Recupero detalles básicos como nombre, id, peso...
@@ -246,5 +239,40 @@ function colorTipos(p,tipo){
     if(pokemonTypes[i]==tipo){
       p.style.backgroundColor=colores[i];
     }
+  }
+}
+
+
+// ----------------------------------------------------- ESTADISTICAS
+
+//PRUEBA
+function recuperarEstadisticas(xhr) {
+  creaDivEstadisticas();
+  let divEstadisticas= document.getElementById("estadisticas");
+  let stats= xhr.response.stats;
+  let tabla= document.createElement("table");
+  
+  
+  for (let i = 0; i < stats.length; i++) {
+    let tr= document.createElement("tr");
+    tr.textContent= stats[i].stat.name;
+    let td= document.createElement("td");
+    let progress= document.createElement("progress");
+    progress.value= stats[i].base_stat;
+    progress.max= 200;
+    tr.appendChild(td);
+    td.appendChild(progress);
+    divEstadisticas.appendChild(tabla);
+    tabla.appendChild(tr);
+    console.log("BaseStat: "+ stats[i].base_stat);
+    console.log("Estadística básica"+stats[i].stat.name);
+  }
+}
+
+function creaDivEstadisticas(){
+  if(!document.getElementById("estadisticas")){
+    let div = document.createElement("div");
+    div.setAttribute("id", "estadisticas");
+    document.getElementById("divPokemon").appendChild(div);
   }
 }
