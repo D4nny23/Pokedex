@@ -255,18 +255,27 @@ function recuperarEstadisticas(xhr) {
   
   for (let i = 0; i < stats.length; i++) {
     let tr= document.createElement("tr");
-    tr.textContent= stats[i].stat.name;
+    let tdEstadistica= document.createElement("td");
+    tdEstadistica.textContent= stats[i].stat.name;
+
+    let tdNEstadistica= document.createElement("td");
+    tdNEstadistica.textContent= stats[i].base_stat;
+
     let td= document.createElement("td");
-    let progress= document.createElement("progress");
-    progress.value= stats[i].base_stat;
-    progress.max= 200;
+    let divBarra= document.createElement("div");
+    let divBarraProgreso= document.createElement("div");
+    divBarra.appendChild(divBarraProgreso);
+    divBarraProgreso.setAttribute('id','rellenoBarra');
+    divBarra.setAttribute('id','contornoBarra');
+    divBarraProgreso.style.width=stats[i].base_stat+"px";
+    
+    tr.appendChild(tdEstadistica);
+    tr.appendChild(tdNEstadistica);
     tr.appendChild(td);
-    td.appendChild(progress);
-    divEstadisticas.appendChild(tabla);
+    td.appendChild(divBarra);
     tabla.appendChild(tr);
-    console.log("BaseStat: "+ stats[i].base_stat);
-    console.log("Estadística básica"+stats[i].stat.name);
   }
+  divEstadisticas.appendChild(tabla);
 }
 
 function creaDivEstadisticas(){
