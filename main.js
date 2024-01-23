@@ -52,14 +52,16 @@ window.addEventListener("keypress", (e)=>{
   }
 })
 
-function peticion(){
-  if(document.getElementById("habilidades")){
-    document.getElementById("habilidades").remove();
+function borraDiv(div){
+  if(document.getElementById(div)){
+    document.getElementById(div).remove();
   }
+}
 
-  if(document.getElementById("tipos")){
-    document.getElementById("tipos").remove();
-  }
+function peticion(){
+  borraDiv("habilidades");
+  borraDiv("tipos");
+  borraDiv("estadisticas");
 
   let xhr = new XMLHttpRequest();
   let nombrePokemon =
@@ -81,9 +83,9 @@ function peticion(){
     }
 
     if (xhr.status === 200) {
-      habilidades(xhr);
       detallesPokemon(xhr);
-      detallesBasicos(xhr);
+      detallesBasicos(xhr); 
+      habilidades(xhr);
       creaDivHabilidades(xhr);
       tipos(xhr);
       recuperarEstadisticas(xhr);
@@ -118,12 +120,12 @@ function status404(body) {
 
 function detallesPokemon(xhr) {
   let div = document.getElementById("divPokemon");
-  if(!document.getElementById("nombreTitulo")){
-    let nombreTitulo= document.createElement("p");
-    nombreTitulo.setAttribute("id", "nombreTitulo");
-    div.appendChild(nombreTitulo);
-  }
-  document.getElementById("nombreTitulo").textContent= (xhr.response.name).toUpperCase();
+  // if(!document.getElementById("nombreTitulo")){
+  //   let nombreTitulo= document.createElement("p");
+  //   nombreTitulo.setAttribute("id", "nombreTitulo");
+  //   div.appendChild(nombreTitulo);
+  // }
+  // document.getElementById("nombreTitulo").textContent= (xhr.response.name).toUpperCase();
   recuperoImagen2(xhr, div, "imgDetalle");
   //Borra la lista de Pokemon
   if (document.getElementById("contenedor")) {
