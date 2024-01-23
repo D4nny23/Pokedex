@@ -84,8 +84,8 @@ function peticion(){
 
     if (xhr.status === 200) {
       detallesPokemon(xhr);
-      detallesBasicos(xhr); 
       habilidades(xhr);
+      detallesBasicos(xhr); 
       creaDivHabilidades(xhr);
       tipos(xhr);
       recuperarEstadisticas(xhr);
@@ -138,10 +138,13 @@ function recuperoImagen2(xhr, div, id) {
   let img = xhr.response.sprites.front_default;
   //Si no existe el elemento IMG lo creo y le meto la imagen del pokemon
   if (!document.getElementById(id)) {
+    let divImg= document.createElement("div");
+    divImg.setAttribute("id", "imagen");
     let icon = document.createElement("img");
     icon.setAttribute("src", img);
     icon.setAttribute("id", id);
-    div.appendChild(icon);
+    divImg.appendChild(icon);
+    div.appendChild(divImg);
   } else {
     //Si existe el elemento lo recupero y le meto la imagen nueva
     let imgElement = document.getElementById(id);
@@ -174,7 +177,7 @@ function creaDivDetallesBasicos(){
   if(!document.getElementById("detallesBasicos")){
     let divDetallesBasicos = document.createElement("div");
     divDetallesBasicos.setAttribute("id", "detallesBasicos");
-    document.getElementById("divPokemon").appendChild(divDetallesBasicos);
+    document.getElementById("habilidades").appendChild(divDetallesBasicos);
   }
 }
 
@@ -230,7 +233,7 @@ function creaDivTipos(){
   if(!document.getElementById("tipos")){
     let divTipos = document.createElement("div");
     divTipos.setAttribute("id", "tipos");
-    document.getElementById("divPokemon").appendChild(divTipos);
+    document.getElementById("imagen").appendChild(divTipos);
   }
 }
 
