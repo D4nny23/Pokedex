@@ -75,7 +75,6 @@ function peticion(){
   xhr.onload = function () {
     let body = document.getElementsByTagName("body")[0];
 
-    // recuperarEstadisticas(xhr);
     if (!document.getElementById("divPokemon")) {
       let div = document.createElement("div");
       div.setAttribute("id", "divPokemon");
@@ -120,6 +119,7 @@ function status404(body) {
 
 function detallesPokemon(xhr) {
   let div = document.getElementById("divPokemon");
+  primeraPeticionEvolucion(xhr.response.id);
   // if(!document.getElementById("nombreTitulo")){
   //   let nombreTitulo= document.createElement("p");
   //   nombreTitulo.setAttribute("id", "nombreTitulo");
@@ -213,7 +213,6 @@ function creaDivHabilidades(){
   }
 }
 
-
 // -------------------------------------------------- TIPOS
 
 function tipos(xhr){
@@ -288,5 +287,59 @@ function creaDivEstadisticas(){
     let div = document.createElement("div");
     div.setAttribute("id", "estadisticas");
     document.getElementById("divPokemon").appendChild(div);
+  }
+}
+//---------------------------------------------------Evoluciones
+function primeraPeticionEvolucion(id){
+  const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
+    fetch(url)
+    .then((response)=>response.json())
+    .then((data)=>{
+      let url =data.evolution_chain.url
+      fetch(url)
+      .then((response)=>response.json())
+      .then((data)=>{
+        imgEvoluciones(data);
+      })
+    })
+    
+}
+
+function imgEvoluciones(data){
+  const evolutions = [];
+  let currentEvolution = data.chain;
+  
+  while (currentEvolution) {
+  evolutions.push(currentEvolution.species.name);
+  currentEvolution = currentEvolution.evolves_to[0];
+  }
+
+  console.log(evolutions);
+
+  for (let i = 0; i < evolutions.length; i++) {
+  console.log("https://pokeapi.co/api/v2/pokemon/"+ evolutions[i]);
+  fetch("https://pokeapi.co/api/v2/pokemon/"+ evolutions[i])
+  .then((response)=> response.json())
+  .then((data)=>{
+  creaDivEvolucion(i);
+  setImgEvoluciones(data, i);
+  console.log(data.id)
+})
+}
+}
+
+function setImgEvoluciones(data, i){
+  let div= document.getElementById("evolucion"+i);
+  let img= document.createElement("img");
+  img.setAttribute("id", "imgEvolucion"+i);
+  img.setAttribute("src", data.sprites.front_default);
+  div.append(img);
+}
+
+function creaDivEvolucion(numero){
+  if(!document.getElementById("evolucion"+numero)){
+    let divEvolucion = document.createElement("div");
+    divEvolucion.setAttribute("id", "evolucion"+numero);
+    document.getElementById("divPokemon").appendChild(divEvolucion);
   }
 }
