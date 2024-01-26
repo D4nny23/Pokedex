@@ -291,6 +291,10 @@ function creaDivEstadisticas(){
 }
 //---------------------------------------------------Evoluciones
 function primeraPeticionEvolucion(id){
+  borraDiv("evolucion"+0);
+  borraDiv("evolucion"+1);
+  borraDiv("evolucion"+2);
+
   const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
     fetch(url)
     .then((response)=>response.json())
