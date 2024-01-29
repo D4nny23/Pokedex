@@ -63,6 +63,7 @@
     background-color: rgb(245, 244, 244);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     grid-gap: 10px;
     justify-content: center;
     text-align: center;
@@ -70,8 +71,6 @@
 
 #imgDetalle{
     width: 95%;
-    height: auto;
-    margin-left: 2%;
     background-color: #eaeaea;
 }
 
@@ -91,8 +90,7 @@
 
 #habilidades{
     background-color: #eaeaea;
-    width: 95%;
-    height: 44%;
+    height: 100%;
     font-family: 'Trebuchet MS';
     font-weight: bold;
 }
@@ -123,4 +121,37 @@
 
 table{
     border: 1px solid black;
+}
+
+#evolucion0{
+    background-color: #eaeaea;
+    margin-bottom: 2%;
+    margin-left: 2%;
+}
+
+#evolucion1{
+    background-color: #eaeaea;
+    margin-bottom: 2%;
+}
+
+#evolucion2{
+    background-color: #eaeaea;
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+
+#imgEvolucion0, #imgEvolucion1{
+    margin-top: 20% ;
+}
+
+#imgEvolucion2{
+    margin-top: 15%;
+}
+
+#tituloStats{
+    font-weight: bold;
+}
+
+#imagen{
+    margin-left: 2%;
 }

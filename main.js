@@ -255,7 +255,10 @@ function recuperarEstadisticas(xhr) {
   let divEstadisticas= document.getElementById("estadisticas");
   let stats= xhr.response.stats;
   let tabla= document.createElement("table");
-  
+  let tituloStats= document.createElement('p');
+  tituloStats.textContent="STATS";
+  tituloStats.setAttribute('id', 'tituloStats');
+  divEstadisticas.appendChild(tituloStats);
   
   for (let i = 0; i < stats.length; i++) {
     let tr= document.createElement("tr");
@@ -327,7 +330,6 @@ function imgEvoluciones(data){
   .then((data)=>{
   creaDivEvolucion(i);
   setImgEvoluciones(data, i);
-  console.log(data.id)
 })
 }
 }
