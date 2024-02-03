@@ -275,7 +275,7 @@ function recuperarEstadisticas(xhr) {
     divBarra.appendChild(divBarraProgreso);
     divBarraProgreso.setAttribute('id','rellenoBarra');
     divBarra.setAttribute('id','contornoBarra');
-    divBarraProgreso.style.width=stats[i].base_stat+"px";
+    divBarraProgreso.style.width=(stats[i].base_stat*100)/255+"%";
     
     tr.appendChild(tdEstadistica);
     tr.appendChild(tdNEstadistica);
