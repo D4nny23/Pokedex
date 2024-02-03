@@ -68,7 +68,7 @@ function peticion(){
     document.getElementById("pokemonName").value != ""
       ? document.getElementById("pokemonName").value
       : 0;
-  let ruta = "https://pokeapi.co/api/v2/pokemon/" + nombrePokemon;
+  let ruta = "https://pokeapi.co/api/v2/pokemon/" + nombrePokemon.toLowerCase();
   xhr.open("GET", ruta);
 
   xhr.responseType = "json";
