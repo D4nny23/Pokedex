@@ -88,6 +88,7 @@ function peticion(){
       creaDivHabilidades(xhr);
       tipos(xhr);
       recuperarEstadisticas(xhr);
+      imgEspalda(xhr);
     } else if (xhr.status === 404) {
       status404(body);
     }
@@ -314,18 +315,6 @@ function primeraPeticionEvolucion(id){
   borraDiv("evolucion"+2);
 
   peticiones(id);
-
-  // const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
-  //   fetch(url)
-  //   .then((response)=>response.json())
-  //   .then((data)=>{
-  //     let url =data.evolution_chain.url
-  //     fetch(url)
-  //     .then((response)=>response.json())
-  //     .then((data)=>{
-  //       imgEvoluciones(data);
-  //     })
-  //   })
     
 }
 
@@ -381,4 +370,16 @@ function creaDivEvolucion(numero){
     divEvolucion.setAttribute("id", "evolucion"+numero);
     document.getElementById("divPokemon").appendChild(divEvolucion);
   }
+}
+
+function imgEspalda(xhr){
+  let img= document.getElementById("imgDetalle");
+  img.addEventListener("mouseover", ()=>{
+      let objetoImg= xhr.response.sprites.back_default;
+      img.setAttribute("src", objetoImg);
+
+      setTimeout(()=>{
+          img.setAttribute("src", xhr.response.sprites.front_default);
+      }, 1000)
+  })
 }
