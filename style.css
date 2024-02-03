@@ -2,18 +2,22 @@
     font-family: 'Trebuchet MS';
     font-weight: bold;
 }
+html{
+    background-image: url('img/Fondo.jpg');
+}
 #contenedor{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(3, 1fr);
     overflow: auto;
-    width: 98%;
-    height: 70vh;
-    margin-bottom: 1%;
-    /* border: 1px solid gray; */
-    position:relative;
-    left: 1%;
-    top: 5vh;
+    width: auto;
+    height: 74vh;
+    margin-top: 1%;
+    background-color: rgba(1, 1, 1, 0); /* RGBA: rojo, verde, azul, alfa */
+}
+
+body{
+    background-color:  rgba(1, 1, 1, 0.1);
 }
 
 
