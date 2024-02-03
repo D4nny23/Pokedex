@@ -64,7 +64,7 @@ body{
 /* ---------------------------------------------------------------------------- */
 
 #divPokemon {
-    margin-left: 20%;
+    margin-left: 21.5%;
     width: 60%;
     margin-top: 2%;
     height: 72vh;
@@ -78,7 +78,7 @@ body{
 }
 
 #imgDetalle{
-    transform: scale(1.5);
+    transform: scale(1.1);
     width: 74%;
 }
 
