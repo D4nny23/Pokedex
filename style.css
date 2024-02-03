@@ -1,3 +1,7 @@
+*{
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+}
 #contenedor{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -89,6 +93,7 @@
 }
 
 #habilidades{
+    margin-top: 1%;
     background-color: #eaeaea;
     height: 100%;
     font-family: 'Trebuchet MS';
@@ -114,6 +119,8 @@
 }
 
 #estadisticas{
+    margin-top: 1%;
+    margin-right: 2%;
     background-color: #eaeaea;
     width: auto;
     height: auto;
@@ -136,16 +143,8 @@ table{
 
 #evolucion2{
     background-color: #eaeaea;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
     margin-right: 2%;
-}
-
-#imgEvolucion0, #imgEvolucion1{
-    margin-top: 20% ;
-}
-
-#imgEvolucion2{
-    margin-top: 15%;
 }
 
 #tituloStats{
@@ -153,5 +152,24 @@ table{
 }
 
 #imagen{
+    margin-top: 2%;
     margin-left: 2%;
+}
+#nombreEvolucion{
+    font-weight: bold;
+}
+
+#idNombre span{
+    display: block;
+    flex-direction: column;
+}
+
+#idNombre{
+    font-weight: bold;
+    height: 2vh;
+}
+
+#imgEvolucion0, #imgEvolucion1, #imgEvolucion2{
+    box-sizing: border-box;
+    margin-top: 5%;
 }

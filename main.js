@@ -263,7 +263,7 @@ function recuperarEstadisticas(xhr) {
   for (let i = 0; i < stats.length; i++) {
     let tr= document.createElement("tr");
     let tdEstadistica= document.createElement("td");
-    tdEstadistica.textContent= stats[i].stat.name;
+    tdEstadistica.textContent= stats[i].stat.name.toUpperCase();
 
     let tdNEstadistica= document.createElement("td");
     tdNEstadistica.textContent= stats[i].base_stat;
@@ -293,26 +293,43 @@ function creaDivEstadisticas(){
   }
 }
 //---------------------------------------------------Evoluciones
+let peticiones= async(id)=>{
+  try {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
+    let peticion1= await fetch(url);
+    let data= await peticion1.json();
+    let urlEvoluciones= data.evolution_chain.url;
+    let peticion2= await fetch(urlEvoluciones);
+    let dataEvoluciones= await peticion2.json();
+    imgEvoluciones(dataEvoluciones);
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
+
 function primeraPeticionEvolucion(id){
   borraDiv("evolucion"+0);
   borraDiv("evolucion"+1);
   borraDiv("evolucion"+2);
 
-  const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
-    fetch(url)
-    .then((response)=>response.json())
-    .then((data)=>{
-      let url =data.evolution_chain.url
-      fetch(url)
-      .then((response)=>response.json())
-      .then((data)=>{
-        imgEvoluciones(data);
-      })
-    })
+  peticiones(id);
+
+  // const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
+  //   fetch(url)
+  //   .then((response)=>response.json())
+  //   .then((data)=>{
+  //     let url =data.evolution_chain.url
+  //     fetch(url)
+  //     .then((response)=>response.json())
+  //     .then((data)=>{
+  //       imgEvoluciones(data);
+  //     })
+  //   })
     
 }
 
-function imgEvoluciones(data){
+async function imgEvoluciones(data){
   const evolutions = [];
   let currentEvolution = data.chain;
   
@@ -321,25 +338,41 @@ function imgEvoluciones(data){
   currentEvolution = currentEvolution.evolves_to[0];
   }
 
-  console.log(evolutions);
-
+  let arrayEvoluciones= [];
   for (let i = 0; i < evolutions.length; i++) {
-  console.log("https://pokeapi.co/api/v2/pokemon/"+ evolutions[i]);
-  fetch("https://pokeapi.co/api/v2/pokemon/"+ evolutions[i])
-  .then((response)=> response.json())
-  .then((data)=>{
-  creaDivEvolucion(i);
-  setImgEvoluciones(data, i);
-})
+    creaDivEvolucion(i);
+    arrayEvoluciones.push(await evolucionesPokemon(evolutions[i]));
 }
+  setImgEvoluciones(arrayEvoluciones);
 }
 
-function setImgEvoluciones(data, i){
+let evolucionesPokemon= async(evolucion)=>{
+  let peticionPokemon= await fetch("https://pokeapi.co/api/v2/pokemon/"+ evolucion)
+  let data= await peticionPokemon.json();
+  return {
+    'nombre' : data.name,
+    'id' : data.id,
+    'imagen' : data.sprites.front_default
+  };
+}
+
+function setImgEvoluciones(arrayEvoluciones){
+  for (let i = 0; i < arrayEvoluciones.length; i++) {
   let div= document.getElementById("evolucion"+i);
   let img= document.createElement("img");
   img.setAttribute("id", "imgEvolucion"+i);
-  img.setAttribute("src", data.sprites.front_default);
-  div.append(img);
+  img.setAttribute("src", arrayEvoluciones[i].imagen);
+  let idNombre= document.createElement('p');
+  idNombre.setAttribute("id", "idNombre");
+  let id= document.createElement('span');
+  id.textContent="ID: "+ arrayEvoluciones[i].id;
+  let nombre= document.createElement('span');
+  nombre.textContent="NAME: "+arrayEvoluciones[i].nombre.toUpperCase();
+  idNombre.appendChild(id);
+  idNombre.appendChild(nombre);
+  div.appendChild(idNombre);
+  div.appendChild(img);  
+  }
 }
 
 function creaDivEvolucion(numero){
