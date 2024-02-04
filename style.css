@@ -64,9 +64,8 @@ body{
 /* ---------------------------------------------------------------------------- */
 
 #divPokemon {
-    margin-left: 21.5%;
+    margin: 2% auto;
     width: 60%;
-    margin-top: 2%;
     height: 72vh;
     background-color: rgb(245, 244, 244);
     display: grid;

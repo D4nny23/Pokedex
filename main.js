@@ -1,41 +1,44 @@
-inicio();
 
-function inicio() {
+let todosLosPokemon= async(i)=>{
+  try {
+      let peticiones= await fetch("https://pokeapi.co/api/v2/pokemon/" + i)
+      let datos= await peticiones.json();
+      return {
+        'id': datos.id,
+        'nombre': datos.name.toUpperCase(),
+        'imagen': datos.sprites.front_default
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "No existe el Pokemon",
+        icon: "error",
+        confirmButtonColor: "#ff0000",
+      });
+    }
+}
+
+async function inicio() {
   let divContenedor = document.getElementById("contenedor");
-  for (let i = 1; i < 1018; i++) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://pokeapi.co/api/v2/pokemon/" + i);
-
-    xhr.responseType = "json";
+  let arrayPokemons=[""];
+  for (let i = 1; i < 1026; i++) {
+    arrayPokemons.push(await todosLosPokemon(i));
+  }
+  for (let i = 1; i < arrayPokemons.length; i++) {
     let div = document.createElement("div");
     div.setAttribute("class", "celda");
     divContenedor.appendChild(div);
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        let name = document.createElement("p");
-        name.textContent = xhr.response.name.toUpperCase();
-        div.appendChild(name);
-        recuperoImagen(xhr, div, "imgLista");
-      } else if (xhr.status === 404) {
-        Swal.fire({
-          title: "No existe el Pokemon",
-          icon: "error",
-          confirmButtonColor: "#ff0000",
-        });
-      }
-    };
-    xhr.onerror = function () {
-      document.getElementById("resultado").textContent = "Error";
-    };
-
-    xhr.send();
+    let name = document.createElement("p");
+    name.textContent =arrayPokemons[i].nombre.toUpperCase();
+    div.appendChild(name);
+    recuperoImagen(arrayPokemons[i].imagen, div, "imgLista");
   }
 }
 
-function recuperoImagen(xhr, div, id) {
-  let img = xhr.response.sprites.front_default;
+inicio();
+
+async function recuperoImagen(imagen, div, id) {
   let icon = document.createElement("img");
-  icon.setAttribute("src", img);
+  icon.setAttribute("src", imagen);
   icon.setAttribute("id", id);
   div.appendChild(icon);
 }
@@ -52,53 +55,54 @@ window.addEventListener("keypress", (e)=>{
   }
 })
 
+let peticionPokemon=async(nombrePokemon)=>{
+  try {
+    let peticion= await fetch("https://pokeapi.co/api/v2/pokemon/" + nombrePokemon);
+    let datos= await peticion.json();
+    return datos;
+  } catch (error) {
+    return "";
+  }
+}
+
+async function peticion(){
+  borraDiv("habilidades");
+  borraDiv("tipos");
+  borraDiv("estadisticas");
+  borraDiv("imagen");
+
+  let nombrePokemon =
+    document.getElementById("pokemonName").value != ""
+      ? document.getElementById("pokemonName").value.toLowerCase()
+      : 0;
+    let objetoPokemon= await peticionPokemon(nombrePokemon);
+    if(objetoPokemon!=""){
+      let body = document.getElementsByTagName("body")[0];
+      if (!document.getElementById("divPokemon")) {
+        let div = document.createElement("div");
+        div.setAttribute("id", "divPokemon");
+        body.appendChild(div);
+      }
+      detallesPokemon(objetoPokemon);
+      habilidades(objetoPokemon);
+      creaDivHabilidades(objetoPokemon);
+      tipos(objetoPokemon);
+      recuperarEstadisticas(objetoPokemon);
+    }else{
+      status404(document.getElementsByTagName('body')[0]);
+      Swal.fire({
+      title: "No existe el Pokemon",
+      icon: "error",
+      confirmButtonColor: "#ff0000",
+    });
+    }
+    
+}
+
 function borraDiv(div){
   if(document.getElementById(div)){
     document.getElementById(div).remove();
   }
-}
-
-function peticion(){
-  borraDiv("habilidades");
-  borraDiv("tipos");
-  borraDiv("estadisticas");
-
-  let xhr = new XMLHttpRequest();
-  let nombrePokemon =
-    document.getElementById("pokemonName").value != ""
-      ? document.getElementById("pokemonName").value
-      : 0;
-  let ruta = "https://pokeapi.co/api/v2/pokemon/" + nombrePokemon.toLowerCase();
-  xhr.open("GET", ruta);
-
-  xhr.responseType = "json";
-  xhr.onload = function () {
-    let body = document.getElementsByTagName("body")[0];
-
-    if (!document.getElementById("divPokemon")) {
-      let div = document.createElement("div");
-      div.setAttribute("id", "divPokemon");
-      body.appendChild(div);
-    }
-
-    if (xhr.status === 200) {
-      detallesPokemon(xhr);
-      habilidades(xhr);
-      detallesBasicos(xhr); 
-      creaDivHabilidades(xhr);
-      tipos(xhr);
-      recuperarEstadisticas(xhr);
-      imgEspalda(xhr);
-    } else if (xhr.status === 404) {
-      status404(body);
-    }
-  };
-
-  xhr.onerror = function () {
-    div.textContent = "Error";
-  };
-
-  xhr.send();
 }
 
 function status404(body) {
@@ -118,16 +122,10 @@ function status404(body) {
   });
 }
 
-function detallesPokemon(xhr) {
+function detallesPokemon(objeto) {
   let div = document.getElementById("divPokemon");
-  primeraPeticionEvolucion(xhr.response.id);
-  // if(!document.getElementById("nombreTitulo")){
-  //   let nombreTitulo= document.createElement("p");
-  //   nombreTitulo.setAttribute("id", "nombreTitulo");
-  //   div.appendChild(nombreTitulo);
-  // }
-  // document.getElementById("nombreTitulo").textContent= (xhr.response.name).toUpperCase();
-  recuperoImagen2(xhr, div, "imgDetalle");
+  primeraPeticionEvolucion(objeto.id);
+  recuperoImagen2(objeto, div, "imgDetalle");
   //Borra la lista de Pokemon
   if (document.getElementById("contenedor")) {
     let divContenedor = document.getElementById("contenedor");
@@ -135,30 +133,33 @@ function detallesPokemon(xhr) {
   }
 }
 
-function recuperoImagen2(xhr, div, id) {
-  let img = xhr.response.sprites.front_default;
+function recuperoImagen2(objeto, div, id) {
+  let imgFrente = objeto.sprites.front_default;
+  let imgDetras = objeto.sprites.back_default;
+
   //Si no existe el elemento IMG lo creo y le meto la imagen del pokemon
   if (!document.getElementById(id)) {
     let divImg= document.createElement("div");
     divImg.setAttribute("id", "imagen");
     let icon = document.createElement("img");
-    icon.setAttribute("src", img);
+    icon.setAttribute("src", imgFrente);
     icon.setAttribute("id", id);
     divImg.appendChild(icon);
     div.appendChild(divImg);
   } else {
     //Si existe el elemento lo recupero y le meto la imagen nueva
     let imgElement = document.getElementById(id);
-    imgElement.setAttribute("src", img);
+    imgElement.setAttribute("src", imgFrente);
   }
+  imgEspalda(imgFrente, imgDetras);
 }
 
 //Recupero detalles básicos como nombre, id, peso...
-function detallesBasicos(xhr) {
+function detallesBasicos(objeto) {
   if (!document.getElementById("detallesBásicos")) {
     creaDivDetallesBasicos();
     let detalles = 'Id: ,Name: ,Height: ,Weight: '.split(",");
-    let detallesPeticion = [xhr.response.id,xhr.response.name,xhr.response.height,xhr.response.weight];
+    let detallesPeticion = [objeto.id,objeto.name,objeto.height,objeto.weight];
     for (let i = 0; i < detalles.length; i++) {
       let detalle = document.createElement("p");
       detalle.setAttribute("id", detalles[i]);
@@ -183,8 +184,9 @@ function creaDivDetallesBasicos(){
 }
 
 // --------------------------------------------------------------- Habilidades
-function habilidades(xhr){
+function habilidades(objeto){
   creaDivHabilidades();
+  detallesBasicos(objeto); 
   let divHabilidades= document.getElementById("habilidades");
 
   if(!document.getElementById("titulo") && !document.getElementById("listaHabilidades")){
@@ -197,7 +199,7 @@ function habilidades(xhr){
     divHabilidades.appendChild(datos);
   }
 
-  let habilidades= xhr.response.abilities;
+  let habilidades= objeto.abilities;
   for (let i = 0; i < habilidades.length; i++) {
     let li= document.createElement("li");
     li.textContent= (habilidades[i].ability.name).toUpperCase();
@@ -216,9 +218,9 @@ function creaDivHabilidades(){
 
 // -------------------------------------------------- TIPOS
 
-function tipos(xhr){
+function tipos(objeto){
   creaDivTipos();
-  let tipos= xhr.response.types;
+  let tipos= objeto.types;
   for (let i = 0; i < tipos.length; i++) {
     let p= document.createElement("p");
     p.setAttribute("id", "tipos");
@@ -251,10 +253,10 @@ function colorTipos(p,tipo){
 // ----------------------------------------------------- ESTADISTICAS
 
 //PRUEBA
-function recuperarEstadisticas(xhr) {
+function recuperarEstadisticas(objeto) {
   creaDivEstadisticas();
   let divEstadisticas= document.getElementById("estadisticas");
-  let stats= xhr.response.stats;
+  let stats= objeto.stats;
   let tabla= document.createElement("table");
   let tituloStats= document.createElement('p');
   tituloStats.textContent="STATS";
@@ -372,14 +374,13 @@ function creaDivEvolucion(numero){
   }
 }
 
-function imgEspalda(xhr){
-  let img= document.getElementById("imgDetalle");
-  img.addEventListener("mouseover", ()=>{
-      let objetoImg= xhr.response.sprites.back_default;
-      img.setAttribute("src", objetoImg);
+function imgEspalda(imgFrente, imgDetras){
+  let divImg= document.getElementById("imgDetalle");
+  divImg.addEventListener("mouseover", ()=>{
+    divImg.setAttribute("src", imgDetras);
 
       setTimeout(()=>{
-          img.setAttribute("src", xhr.response.sprites.front_default);
+        divImg.setAttribute("src",imgFrente);
       }, 1000)
   })
 }
