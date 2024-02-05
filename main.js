@@ -358,7 +358,7 @@ function setImgEvoluciones(arrayEvoluciones){
   let id= document.createElement('span');
   id.textContent="ID: "+ arrayEvoluciones[i].id;
   let nombre= document.createElement('span');
-  nombre.textContent="NAME: "+arrayEvoluciones[i].nombre.toUpperCase();
+  nombre.textContent=arrayEvoluciones[i].nombre.toUpperCase();
   idNombre.appendChild(id);
   idNombre.appendChild(nombre);
   div.appendChild(idNombre);
