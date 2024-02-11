@@ -22,8 +22,6 @@ async function inicio() {
   let arrayPokemons=[""];
   for (let i = 1; i < 1026; i++) {
     arrayPokemons.push(await todosLosPokemon(i));
-  }
-  for (let i = 1; i < arrayPokemons.length; i++) {
     let div = document.createElement("div");
     div.setAttribute("class", "celda");
     divContenedor.appendChild(div);
