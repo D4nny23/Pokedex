@@ -181,3 +181,8 @@ table{
     width: 50%;
     height: 20vh;
 }
+
+#listaHabilidades span{
+    display: block;
+    flex-direction: column;
+}

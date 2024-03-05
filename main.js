@@ -188,20 +188,20 @@ function habilidades(objeto){
   let divHabilidades= document.getElementById("habilidades");
 
   if(!document.getElementById("titulo") && !document.getElementById("listaHabilidades")){
-    let titulo= document.createElement("p");
-    titulo.textContent="ABILITIES";
-    titulo.setAttribute("id", "titulo");
-    divHabilidades.appendChild(titulo);
-    let datos= document.createElement("ul");
+    let titulo= document.createElement("span");
+    let datos= document.createElement("p");
     datos.setAttribute("id", "listaHabilidades");
     divHabilidades.appendChild(datos);
+    titulo.textContent="ABILITIES: ";
+    titulo.setAttribute("id", "titulo");
+    datos.appendChild(titulo);
   }
 
   let habilidades= objeto.abilities;
   for (let i = 0; i < habilidades.length; i++) {
-    let li= document.createElement("li");
-    li.textContent= (habilidades[i].ability.name).toUpperCase();
-    document.getElementById("listaHabilidades").appendChild(li);
+    let span= document.createElement("span");
+    span.textContent= (habilidades[i].ability.name).toUpperCase();
+    document.getElementById("listaHabilidades").appendChild(span);
   }
 }
 
